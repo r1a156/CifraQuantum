@@ -1,0 +1,21 @@
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+web3==6.11.0
+torch==2.3.1  # Обновляем до совместимой версии
+transformers==4.40.0
+diffusers==0.28.0
+accelerate==0.29.0
+pillow==10.3.0
+moviepy==1.0.3
+aiohttp==3.9.5
+aiogram==3.2.0
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.4.2
+qiskit==0.46.0
+cryptography==42.0.5
+asyncpg==0.29.0
+redis==5.0.5
+celery==5.4.0
+docker==7.1.0
+kubernetes==29.0.0

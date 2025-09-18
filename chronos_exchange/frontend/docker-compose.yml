@@ -1,0 +1,62 @@
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./api:/app/api
+      - ./quantum_blockchain:/app/quantum_blockchain
+      - ./chronos_exchange:/app/chronos_exchange
+      - ./ai_evolution:/app/ai_evolution
+    depends_on:
+      - redis
+    networks:
+      - cifra-network
+
+  frontend:
+    build:
+      context: ./chronos_exchange/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://api:8000
+    depends_on:
+      - api
+    networks:
+      - cifra-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - cifra-network
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - cifra-network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - cifra-network
+
+networks:
+  cifra-network:
+    driver: bridge
